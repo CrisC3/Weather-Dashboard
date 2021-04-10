@@ -1,0 +1,70 @@
+#main-header {
+    background-color: #343a40;
+    color: white;
+    font-size: 36px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#city-location {
+    margin-bottom: 16px;
+}
+
+#city-location > p {
+    margin: 0px;
+}
+
+#current-weather-container {
+    background-color: rgb(130, 226, 218);
+    border: 2px gray solid !important;
+    border-radius: 20px;
+    padding: 0px;
+}
+
+#current-weather-container, #forecast-days {
+    margin-top: 20px;
+    margin-right: 25px;
+    margin-left: 5px;
+    border: 2px;
+    min-width: 220px;
+}
+
+#current-weather {
+    border-right: 0px;
+}
+
+#forecast {
+    margin-top: 20px;
+}
+
+#forecast > * {
+    margin-bottom: 1px;
+    min-width: 224px;
+}
+
+#forecast-days {
+    margin-top: 5px;
+}
+
+#current-weather-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#weather-image-icon {    
+    border-style: double;
+    background-color: #f8009d;
+    border-radius: 50%;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}

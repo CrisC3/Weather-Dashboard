@@ -4,9 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--#region Stylesheets -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./assets/css/styles.css">
+        <link rel="stylesheet" href="./assets/css/styles-mobile.css">
+    <!--#endregion -->
+
     <title>City Weather Dashboard</title>
 </head>
 <body>
     
+    <header id="main-header" class="text-center">Weather Dashboard</header>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div id="sidenavbar" class="bg-light col-6 col-sm-5 col-md-4 col-lg-3 col-xl-3">
+                <h4 class="pt-2 pb-2">Search for a city</h4>
+                <div id="search-container" class="input-group mb-3">
+                    <input id="tbx-city" type="text" placeholder="Enter a city name" class="form-control">
+                    <button id="btn-search" class="btn btn-primary" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                <div id="city-location"></div>
+                <button id="btn-clear-history" class="btn btn-primary" type="button">Clear history</button>
+                <form id="search-history"></form>
+            </div>
+            <div id="data" class="col-6 col-sm-7 col-md-8 col-lg-9 col-xl-9">
+                <div id="current-weather-container" class="row hide">
+                    <div id="current-weather" class="col-11 col-sm-9 col-md-9 col-lg-6 col-xl-5"></div>
+                    <div id="current-weather-img" class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
+                </div>
+                <div class="row">
+                    <div id="forecast" class="col"></div>
+                </div>
+                <div id="forecast-days" class="row justify-content-center"></div>
+            </div>
+        </div>
+    </div>
+    
 </body>
+
+    <!--#region Stylesheets -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="./assets/js/owm.city.list.json"></script>
+        <script src="./assets/js/script.js"></script>
+    <!--#endregion -->
+
 </html>

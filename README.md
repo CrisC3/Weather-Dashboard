@@ -7,4 +7,4 @@ The site allows you view any city weather conditions.
 Update later
 
 ## Link
-<a href="https://crisc3.github.io/Weather-Dashboard/" target="_blank">Weather-Dashboard</a>
+<a href="https://crisc3.github.io/Weather-Dashboard/" target="_blank">https://crisc3.github.io/Weather-Dashboard/</a>
