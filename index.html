@@ -28,19 +28,20 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
-                <div id="city-location"></div>
-                <button id="btn-clear-history" class="btn btn-primary" type="button">Clear history</button>
-                <form id="search-history"></form>
+                <button id="btn-clear-history" class="btn btn-primary hide" type="button">Clear history</button>
+                <form id="cities-history"></form>
             </div>
             <div id="data" class="col-6 col-sm-7 col-md-8 col-lg-9 col-xl-9">
                 <div id="current-weather-container" class="row hide">
                     <div id="current-weather" class="col-11 col-sm-9 col-md-9 col-lg-6 col-xl-5"></div>
                     <div id="current-weather-img" class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
                 </div>
-                <div class="row">
-                    <div id="forecast" class="col"></div>
+                <div id="forecast-weather-container" class="hide">
+                    <div class="row">
+                        <div id="forecast" class="col"></div>
+                    </div>
+                    <div id="forecast-days" class="row justify-content-center"></div>
                 </div>
-                <div id="forecast-days" class="row justify-content-center"></div>
             </div>
         </div>
     </div>
@@ -49,7 +50,6 @@
 
     <!--#region Stylesheets -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="./assets/js/owm.city.list.json"></script>
         <script src="./assets/js/script.js"></script>
     <!--#endregion -->
 
