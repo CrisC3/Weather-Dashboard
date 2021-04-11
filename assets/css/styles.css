@@ -15,10 +15,14 @@
 }
 
 #current-weather-container, #forecast-weather-container {
-    background-color: rgb(130, 226, 218);
+    background-color: rgb(167, 253, 247);
     border: 2px gray solid !important;
     border-radius: 20px;
     padding: 0px;
+}
+
+#current-weather-container {
+    min-width: 240px !important;
 }
 
 #current-weather-container, #forecast-days, #forecast-weather-container {
@@ -26,7 +30,7 @@
     margin-right: 5px;
     margin-left: 5px;
     border: 2px;
-    min-width: 220px;
+    min-width: 225px;
 }
 
 #current-weather {
@@ -53,9 +57,8 @@
     justify-content: flex-start;
 }
 
-#weather-image-icon {    
-    /* border-style: double; */
-    background-color: #c7fbfb;
+#weather-image-icon {
+    background-color: #1a8cff;
     border-radius: 50%;
     margin-top: 2px;
     margin-bottom: 5px;
@@ -64,12 +67,32 @@
 #forecast-weather-container {
     background-color: lightyellow !important;
     padding-bottom: 12px;
+    min-width: 240px;
 }
 
 .rounded-corners {
     border: 2px solid black;
     border-radius: 25px;
+}
 
+#cities-history {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+
+}
+
+#cities-history > li {
+    background-color: rgb(246, 246, 246);
+    padding: 12px 20px 12px 20px;
+    border: lightgray 1px solid !important;
+    border-radius: 5px;
+    margin-bottom: -1px;
+    cursor: pointer;
+}
+
+#btn-clear-history {
+    margin-bottom: 5px;
 }
 
 .hide {
@@ -78,4 +101,17 @@
 
 .show {
     display: block;
+}
+
+@media screen and (max-width: 768px) {
+    #sidenavbar {
+        margin-top: 10px;
+        padding-bottom: 20px;
+        min-width: 225px;
+    }
+
+    .container-fluid {
+        padding-bottom: 20px;
+        background-color: rgba(0, 3, 32, 0.89);
+    }
 }

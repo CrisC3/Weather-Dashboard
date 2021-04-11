@@ -1,4 +1,5 @@
 var txtCityEl = $("#tbx-city");
+var searchHistory = $("#cities-history");
 var cityLocationDivEl = $("#city-location");
 var currentWeatherRow = $("#current-weather-container");
 var currentWeatherDivEl = $("#current-weather");
@@ -12,6 +13,7 @@ var baseUrlForecastWeather = "https://api.openweathermap.org/data/2.5/forecast?q
 var appId = "&appid=";
 var apiKey = "c9a9ed03a355403f4cb9a36e931c0b4a";
 var apiCall = appId + apiKey;
+var keyName = "weather";
 
 var longitude;
 var latitude;
@@ -22,21 +24,26 @@ function onLoad() {
         console.log("Started onLoad");
     //#endregion
     
+    loadFromLocalStorage();
+
     //#region Message to display in developer tools
         console.log("Finished onLoad");
     //#endregion
     
 }
 
-function getWeather() {
+function getWeather(searchCity) {
 
-    currentWeatherData();
-    weatherForecastData();
+    if(searchCity != "") {
+        currentWeatherData(searchCity);
+        weatherForecastData(searchCity);
+        txtCityEl.val("");
+    }
 }
 
-function currentWeatherData() {
+function currentWeatherData(citySearch) {
     
-    var requestUrl = baseUrlCurrentWeather + txtCityEl.val() + "&units=imperial" + apiCall;
+    var requestUrl = baseUrlCurrentWeather + citySearch + "&units=imperial" + apiCall;
 
     fetch(requestUrl)
         .then(function (response) {
@@ -52,8 +59,9 @@ function currentWeatherData() {
             currentWeatherDivEl.empty();
             currentWeatherRow.removeClass("hide");
 
-            var cityName = data.name;
-            var cityCountry = data.sys.country;
+            var city = data.name;
+            var country = data.sys.country;
+            var cityCountry = city + ", " + country;
             var dateTime = new Date(data.dt * 1000).toLocaleDateString();
             var weatherIcon = data.weather[0].icon
             var temperature = data.main.temp;
@@ -63,19 +71,20 @@ function currentWeatherData() {
             latitude = data.coord.lat;
             var uvIndex = getCurrentUv(longitude, latitude);
         
-            var pCurrentSearchEl = document.createElement("p");
-            var pEl = document.createElement("p");
+            var citiesList = document.createElement("li");
             var currentHeading = document.createElement("h2");
             var imgEl = document.createElement("img");
             var temperatureEl = document.createElement("p");
             var humidityEl = document.createElement("p");
             var windSpeedEl = document.createElement("p");
 
-            pCurrentSearchEl.append("Current search location:")
-            pEl.append("** " + cityName + ", " + cityCountry)
-
-            cityLocationDivEl.append(pCurrentSearchEl);
-            cityLocationDivEl.append(pEl);
+            // If - prevents the city to be added on the search history again if the user last search for it last time
+            if((searchHistory[0].children.length == 0) || (cityCountry != searchHistory[0].children[0].innerHTML)) {
+                citiesList.setAttribute("id", city + "-" + country);
+                saveToLocalStorage(cityCountry);
+                citiesList.append(cityCountry);
+                searchHistory.prepend(citiesList);
+            }
 
             currentWeatherDivEl.addClass("current-weather");
            
@@ -83,7 +92,7 @@ function currentWeatherData() {
             imgEl.setAttribute("id", "weather-image-icon");
             imgEl.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + ".png");
 
-            currentHeading.append(cityName + ", "  + cityCountry + " (" + dateTime + ") ");
+            currentHeading.append(city + ", "  + country + " (" + dateTime + ") ");
             currentWeatherImgEl.append(imgEl);
             temperatureEl.append("Temperature: " + temperature + " °F");
             humidityEl.append("Humidity: " + humidity + " %");
@@ -93,8 +102,6 @@ function currentWeatherData() {
             currentWeatherDivEl.append(temperatureEl);
             currentWeatherDivEl.append(humidityEl);
             currentWeatherDivEl.append(windSpeedEl);
-            
-
 
         })
         .catch(function (error) {
@@ -102,9 +109,9 @@ function currentWeatherData() {
         });
 }
 
-function weatherForecastData() {
+function weatherForecastData(citySearch) {
     
-    var requestUrl = baseUrlForecastWeather + txtCityEl.val() + "&units=imperial" + apiCall;
+    var requestUrl = baseUrlForecastWeather + citySearch + "&units=imperial" + apiCall;
 
     fetch(requestUrl)
         .then(function (response) {
@@ -122,7 +129,9 @@ function weatherForecastData() {
             var forecastData = data.list;
                         
             forecastDivEl.empty();
-            forecastWeatherRow.removeClass("hide");
+            forecastDivEl.removeClass("hide");
+            forecastDaysDivEl.removeClass("hide");
+            forecastWeatherRow.removeAttr("class");
 
             var forecastHeading = document.createElement("h2");
             var uviCounter = 0;
@@ -160,7 +169,7 @@ function weatherForecastData() {
                     MaxUviTxtEl.append("Max UVI: ");
                     MaxUviTxtEl.appendChild(MaxUviSpnEl);
 
-                    dayCol.classList.add("col-sm", "py-2", "mx-1", "card", "bg-primary", "text-white", "rounded-corners");
+                    dayCol.classList.add("col-lg-5", "col-xl-2", "my-1", "py-2", "mx-1", "card", "bg-primary", "text-white", "rounded-corners");
                     dayCol.append(dateHeading);
                     dayCol.append(imgEl);
                     dayCol.append(temperatureEl);
@@ -235,8 +244,6 @@ function getForecastUv(lon, lat) {
         })
         .then(function (data) {
 
-            console.log(data);
-
             var forecastUvi = data;
             var day1Col = $("#uviDay-0");
             var day2Col = $("#uviDay-1");
@@ -267,17 +274,76 @@ function getForecastUv(lon, lat) {
 
 }
 
-function test() {
-   
-    console.log("For testing purposes");
+function saveToLocalStorage(location) {
+
+    var cities = JSON.parse(window.localStorage.getItem(keyName)) || [];    
+    var weatherList = {city: location};
+
+    if((cities.length == 0) || (location != cities[0].city)) {
+        $("#btn-clear-history").removeClass("hide");
+        cities.unshift(weatherList);
+        localStorage.setItem("weather", JSON.stringify(cities));
+
+    }
+    
+
 }
+
+function loadFromLocalStorage() {
+
+    var cities = JSON.parse(window.localStorage.getItem(keyName));
+
+    if(cities != null) {
+        // Clear out search history, before entering new cities
+        searchHistory.empty();
+    
+        for(var i = 0; i < cities.length; i++) {
+            var citiesList = document.createElement("li");
+            citiesList.setAttribute("id", cities[i].city.replace(", ", "-"));
+            
+            citiesList.append(cities[i].city);
+            searchHistory.append(citiesList);
+
+        }
+        
+        // Loads the last search city when user loads page
+        getWeather(cities[0].city);
+
+        $("#btn-clear-history").removeClass("hide");
+
+    }
+}
+
+function loadFromSearchClick() {
+
+    var target = event.target.innerHTML;
+    
+    getWeather(target);
+}
+
+function clearHistory() {
+    searchHistory.empty();
+    localStorage.removeItem(keyName);
+    $("#btn-clear-history").addClass("hide");
+    currentWeatherDivEl.empty();
+    currentWeatherRow.addClass("hide");
+    currentWeatherImgEl.empty();
+    forecastWeatherRow.addClass("hide");
+    forecastDivEl.addClass("hide");
+    forecastDaysDivEl.addClass("hide");
+}
+
 
 //#region Application starts
 window.onload = onLoad;
-$("#btn-search").on("click", getWeather);
+
+$("#btn-search").on("click", getWeather(txtCityEl.val()));
+$("#btn-clear-history").on("click", clearHistory);
+searchHistory.on("click", loadFromSearchClick);
+
 document.addEventListener("keyup", function(event) {
     if ((txtCityEl.val() != "") && (event.code === 'Enter')) {
-        getWeather();
+        getWeather(txtCityEl.val());
       //alert('Enter is pressed!');
     }
   });
