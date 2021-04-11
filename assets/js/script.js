@@ -21,6 +21,8 @@ var latitude;
 
 // Runs when loading the website in browser
 function onLoad() {
+
+    event.preventDefault();
     
     //#region Message to display in developer tools
         console.log("Started onLoad");
