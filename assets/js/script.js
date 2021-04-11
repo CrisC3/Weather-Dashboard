@@ -106,7 +106,7 @@ function currentWeatherData(citySearch) {
 
             // Setting attributes to the image element
             imgEl.setAttribute("id", "weather-image-icon");
-            imgEl.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherIcon + ".png");
+            imgEl.setAttribute("src", "https://openweathermap.org/img/wn/" + weatherIcon + ".png");
 
             // Appending data to different elements
             currentHeading.append(city + ", "  + country + " (" + dateTime + ") ");
@@ -190,7 +190,7 @@ function weatherForecastData(citySearch) {
                     // Appending data and setting attributes to multiple elements
                     dateHeading.append(localDate);                   
                     imgEl.setAttribute("style", "width:50px;height:50px")
-                    imgEl.setAttribute("src", "http://openweathermap.org/img/w/" + weatherIcon + ".png");
+                    imgEl.setAttribute("src", "https://openweathermap.org/img/w/" + weatherIcon + ".png");
                     temperatureEl.append("Temp: " + temperature + " °F");
                     humidityEl.append("Hum: " + humidity + " %");
                     windSpeedEl.append("Wind Spd: " + windSpeed + " MPH");
