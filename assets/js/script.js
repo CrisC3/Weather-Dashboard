@@ -43,6 +43,7 @@ function getWeather(searchCity) {
         currentWeatherData(searchCity);
         weatherForecastData(searchCity);
         txtCityEl.val("");
+        window.scrollTo(0,0);
     }
 }
 
@@ -393,6 +394,8 @@ window.onload = onLoad;
 $("#btn-search").on("click", function() {
     getWeather(txtCityEl.val());
 });
+
+//$("#btn-search").on("click", getWeather(txtCityEl.val()));
 
 $("#btn-clear-history").on("click", clearHistory);
 searchHistory.on("click", loadFromSearchClick);
