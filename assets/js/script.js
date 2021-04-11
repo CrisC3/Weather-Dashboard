@@ -21,8 +21,6 @@ var latitude;
 
 // Runs when loading the website in browser
 function onLoad() {
-
-    event.preventDefault();
     
     //#region Message to display in developer tools
         console.log("Started onLoad");
@@ -392,7 +390,10 @@ function clearHistory() {
 window.onload = onLoad;
 
 // Event listerner for onclick
-$("#btn-search").on("click", getWeather(txtCityEl.val()));
+$("#btn-search").on("click", function() {
+    getWeather(txtCityEl.val());
+});
+
 $("#btn-clear-history").on("click", clearHistory);
 searchHistory.on("click", loadFromSearchClick);
 
